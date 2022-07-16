@@ -1,0 +1,24 @@
+{
+  "description": "Page selector for PDFs",
+  "source": "https://github.com/jsscheller/apps/blob/master/pdf-page-picker/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "pdfFiles": { "type": ["file"], "label": "PDF Files" },
+    "allowSelect": "boolean",
+    "allowMove": "boolean",
+    "allowRotate": "boolean",
+    "allowDelete": "boolean",
+    "allowSplit": "boolean"
+  },
+  "output": {
+    "docs": [
+      [
+        {
+          "from": "string",
+          "pages": "string"
+        }
+      ]
+    ],
+    "rotate": [{ "angle": "number", "pages": "string" }]
+  }
+}

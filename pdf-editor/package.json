@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {
+    "@jspawn/pdfr-wasm": "^0.0.3",
+    "@jspawn/jspawn": "^0.3.0",
+    "@jspawn/qpdf-wasm": "^0.0.1"
+  }
+}

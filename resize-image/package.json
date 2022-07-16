@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha.js tests.js"
+  },
+  "dependencies": {
+    "@jspawn/imagemagick-wasm": "^0.1.1",
+    "@jspawn/jspawn": "^0.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
+  }
+}

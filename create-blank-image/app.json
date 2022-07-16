@@ -1,0 +1,20 @@
+{
+  "description": "Create a blank image with a solid color",
+  "source": "https://github.com/jsscheller/apps/blob/master/create-blank-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "width": "number",
+    "height": "number",
+    "color": {
+      "type": "string",
+      "description": "The color in hexadecimal format."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["PNG", "JPEG", "BMP", "ICO", "TIFF"]
+    }
+  },
+  "output": {
+    "blankImage": "file"
+  }
+}

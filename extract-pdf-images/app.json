@@ -1,0 +1,44 @@
+{
+  "name": "extract-pdf-images",
+  "description": "Extract images from a PDF",
+  "source": "https://github.com/jsscheller/apps/blob/master/sign-pdf/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "pdfFile": {
+      "type": "file",
+      "label": "PDF File"
+    },
+    "quality": {
+      "type": "number",
+      "default": 92,
+      "description": "A value from 0 (worst) to 100 (best) indicating the JPEG quality."
+    },
+    "filter": {
+      "collapse": true,
+      "type": {
+        "minWidth": {
+          "type": "number",
+          "label": "Minimum Width",
+          "required": false,
+          "description": "Only extract images with a width greater than or equal to `Minimum Width` (in pixels)."
+        },
+        "minHeight": {
+          "type": "number",
+          "label": "Minimum Height",
+          "required": false,
+          "description": "Only extract images with a height greater than or equal to `Minimum Height` (in pixels)."
+        },
+        "minArea": {
+          "type": "number",
+          "label": "Minimum Area",
+          "required": false,
+          "description": "Only extract images with an area greater than or equal to `Minimum Area` (in pixels)."
+        }
+      },
+      "description": "Only extract specific images - eg. ones with a width greater than 100 pixels."
+    }
+  },
+  "output": {
+    "images": ["file"]
+  }
+}

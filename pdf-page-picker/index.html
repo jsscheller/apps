@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<body>
+  <style type="text/css">
+    :root {
+      --body-color: #000;
+      --body-hover-color: #333;
+      --body-bg: #fff;
+      --link-color: #0d6efd;
+      --link-hover-color: #0a58ca;
+      --font-monospace: monospace;
+      --primary: #0d6efd;
+      --light: #e3e3e3;
+      --dark: #212121;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Roboto,arial,sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--body-color);
+      text-align: left;
+      background-color: var(--body-bg);
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input, optgroup, select, textarea {
+      margin: 0;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    label {
+      display: inline-block;
+    }
+
+    h1, .h1,
+    h2, .h2,
+    h3, .h3,
+    h4, .h4,
+    h5, .h5,
+    h6, .h6 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    h1, .h1 { font-size: 2.5rem; }
+    h2, .h2 { font-size: 2rem; }
+    h3, .h3 { font-size: 1.75rem; }
+    h4, .h4 { font-size: 1.5rem; }
+    h5, .h5 { font-size: 1.25rem; }
+    h6, .h6 { font-size: 1rem; }
+
+    small, .small {
+      font-size: .875em;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration: underline;
+    }
+    a:hover {
+      color: var(--link-hover-color);
+    }
+
+    button {
+      -webkit-appearance: button;
+      border-radius: 0;
+      cursor: pointer;
+    }
+
+    button, select {
+      text-transform: none;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    dl, ol, ul {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    ol, ul {
+      padding-left: 2rem;
+    }
+
+    code, kbd, pre, samp {
+      font-family: var(--font-monospace);
+      font-size: 1em;
+    }
+
+    pre {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      overflow: auto;
+      font-size: .875em;
+    }
+
+    hr {
+      margin: 1rem 0;
+      color: inherit;
+      border: 0;
+      border-top: 1px solid;
+      opacity: .25;
+    }
+  </style>
+  <div id="root" style="overflow: auto;"></div>
+  <script type="importmap">
+  {
+    "imports": {
+      "@jspawn/jspawn": "/node_modules/@jspawn/jspawn/esm/jspawn.mjs"
+    }
+  }
+  </script>
+  <script type="module">
+    import { subprocess } from "@jspawn/jspawn";
+    import PDFPagePicker from "./index.js";
+
+    subprocess.setBinarySearchPath([
+      "/node_modules/@jspawn/pdfr-wasm/pdfr.wasm",
+      "/node_modules/@jspawn/qpdf-wasm/qpdf.wasm",
+    ]);
+
+    const rotatePDF = await (await fetch("rotate.pdf")).blob();
+    const sizesPDF = await (await fetch("sizes.pdf")).blob();
+    customElements.define('pdf-page-picker', PDFPagePicker);
+    const pdfPagePicker = new PDFPagePicker({
+      pdfFiles: [
+        {
+          name: "sample.pdf",
+          contents: rotatePDF,
+        },
+        {
+          name: "sizes.pdf",
+          contents: sizesPDF,
+        }
+      ],
+      allowSelect: true,
+      allowMove: false,
+      allowRotate: false,
+      allowDelete: false,
+      allowSplit: false,
+    });
+    pdfPagePicker.addEventListener("change", (e) => console.log(JSON.stringify(e.detail, null, 2)));
+    document.getElementById("root").append(pdfPagePicker);
+  </script>
+</body>

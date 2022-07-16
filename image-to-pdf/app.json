@@ -1,0 +1,21 @@
+{
+  "name": "image-to-pdf",
+  "description": "Convert images to PDF",
+  "source": "https://github.com/jsscheller/apps/blob/master/image-to-pdf/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFiles": {
+      "type": ["file"],
+      "description": "Supported image formats: PNG, JPEG, WEBP, BMP, GIF, ICO, TGA."
+    },
+    "dpi": {
+      "label": "DPI",
+      "type": "number",
+      "default": 300,
+      "description": "Dots-per-inch - really only relevant if you intend to print the PDF file."
+    }
+  },
+  "output": {
+    "pdf": "file"
+  }
+}

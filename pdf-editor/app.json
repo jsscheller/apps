@@ -1,0 +1,49 @@
+{
+  "name": "pdf-editor",
+  "description": "Edit a PDF",
+  "source": "https://github.com/jsscheller/apps/blob/master/pdf-editor/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "pdfFile": {
+      "type": "file",
+      "label": "PDF File"
+    },
+    "tool": {
+      "type": "string",
+      "enum": ["text", "signature", "image"]
+    },
+    "initCreateSignature": "boolean"
+  },
+  "output": {
+    "signatures": [
+      {
+        "file": "file",
+        "page": "number",
+        "width": "number",
+        "height": "number",
+        "x": "number",
+        "y": "number"
+      }
+    ],
+    "images": [
+      {
+        "file": "file",
+        "page": "number",
+        "width": "number",
+        "height": "number",
+        "x": "number",
+        "y": "number"
+      }
+    ],
+    "textLines": [
+      {
+        "text": "string",
+        "font": "string",
+        "fontSize": "number",
+        "page": "number",
+        "x": "number",
+        "y": "number"
+      }
+    ]
+  }
+}

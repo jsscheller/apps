@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha.js tests.js"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
+  },
+  "dependencies": {
+    "@jspawn/pdfr-wasm": "^0.0.3",
+    "@jspawn/jspawn": "^0.3.0"
+  }
+}

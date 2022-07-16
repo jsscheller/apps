@@ -1,0 +1,73 @@
+{
+  "description": "Resize an image by width, height, area, or a percentage",
+  "source": "https://github.com/jsscheller/apps/blob/master/resize-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": "file",
+    "resizeBy": {
+      "type": "string",
+      "enum": ["width", "height", "width_and_height", "area", "percentage"],
+      "description": [
+        "Choose how your image will be resized:",
+        "- **Width**: resize to the given width, preserving the aspect ratio",
+        "- **Height**: resize to the given height, preserving the aspect ratio",
+        "- **Width and Height**: resize to the given dimensions, using a specified method of resizing, such as fill, crop, pad, etc",
+        "- **Area**: resize the image so that its area is less than or equal to the specified area",
+        "- **Percentage**: scale the image by a percentage"
+      ]
+    },
+    "method": {
+      "type": "string",
+      "enum": ["best_fit", "ignore_aspect_ratio", "fill", "pad", "crop"],
+      "show_if": "resizeBy === 'width_and_height'",
+      "description": [
+        "- **Best Fit**: resize by enlarging or reducing - just enough to best fit the given size while preserving the aspect ratio",
+        "- **Ignore Aspect Ratio**: this option forces the ratio to be ignored so the given size is matched exactly",
+        "- **Fill**: resize based on the smallest fitting dimension. The resized image will completely fill (and even overflow) the given size",
+        "- **Pad**: resize to fit within the given size and then add a border around the image to exactly match the given size",
+        "- **Crop**: crop (cut out parts of the image) to exactly match the given size"
+      ]
+    },
+    "area": {
+      "type": "number",
+      "show_if": "resizeBy === 'area'",
+      "description": "The area, in pixels."
+    },
+    "exactMatch": {
+      "type": "boolean",
+      "show_if": "resizeBy === 'area'",
+      "description": "Force the area of the resized image to exactly match the given area by cutting and/or padding."
+    },
+    "padColor": {
+      "type": "string",
+      "default": "#000000",
+      "show_if": "method === 'pad' || exactMatch",
+      "description": "The color of the padding (border) in hexadecimal format."
+    },
+    "dimension": {
+      "type": "string",
+      "enum": ["Width", "Height"],
+      "default": "Width",
+      "show_if": "exactMatch",
+      "description": "Specify the width or height for your resized image."
+    },
+    "width": {
+      "type": "number",
+      "show_if": "resizeBy === 'width' || resizeBy === 'width_and_height' || dimension === 'width'",
+      "description": "The width in pixels."
+    },
+    "height": {
+      "type": "number",
+      "show_if": "resizeBy === 'height' || resizeBy === 'width_and_height' || dimension === 'height'",
+      "description": "The height in pixels."
+    },
+    "percentage": {
+      "type": "number",
+      "show_if": "resizeBy === 'percentage'",
+      "description": "A number between 0 and 100."
+    }
+  },
+  "output": {
+    "resizedImage": "file"
+  }
+}

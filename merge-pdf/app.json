@@ -1,0 +1,61 @@
+{
+  "name": "merge-pdf",
+  "description": "Combine PDFs into one",
+  "source": "https://github.com/jsscheller/apps/blob/master/merge-pdf/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "pdfFiles": {
+      "type": ["file"],
+      "label": "PDF Files"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["join", "custom"],
+      "description": [
+        "- **Join**: your PDF files combined into a single PDF - order is determined by the `PDF Files` field",
+        "- **Custom**: remove and/or reorder pages within each file - resulting in a single, merged PDF"
+      ]
+    },
+    "pages": {
+      "type": [
+        {
+          "from": {
+            "type": "string",
+            "description": "The name of the PDF file from which to select pages."
+          },
+          "selection": {
+            "type": "string",
+            "description": [
+              "The pages to select.",
+              "",
+              "- A number preceded by `r` counts from the end, so `r1` is the last page, `r2` is the second-to-last page, etc.",
+              "- The letter `z` represents the last page and is the same as `r1`.",
+              "",
+              "Examples:",
+              "",
+              "|  |  |",
+              "| --- | --- |",
+              "| `1,6,4` | pages 1, 6, and 4 |",
+              "| `3-7` | pages 3 through 7 inclusive |",
+              "| `7-3` | pages 7, 6, 5, 4, and 3 |",
+              "| `1-z` | all pages |",
+              "| `1,3,5-9,15-12` | pages 1, 3, 5, 6, 7, 8, 9, 15, 14, 13, and 12 |",
+              "| `r1` | the last page |",
+              "| `r1-r3` | the last three pages |",
+              "| `5,7-9,12` | pages 5, 7, 8, 9, and 12 |"
+            ]
+          }
+        }
+      ],
+      "show_if": "method === 'custom'",
+      "control": {
+        "name": "jss/pdf-page-picker",
+        "input": "{ pdfFiles, allowDelete: true, allowMove: true }",
+        "output": "docs[0].map((doc) => ({ from: doc.from, selection: doc.pages }))"
+      }
+    }
+  },
+  "output": {
+    "mergedPDF": "file"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "name": "sign-pdf",
+  "description": "Add your signature to a PDF",
+  "source": "https://github.com/jsscheller/apps/blob/master/sign-pdf/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "pdfFile": {
+      "type": "file",
+      "label": "PDF File"
+    },
+    "signatures": {
+      "type": [
+        {
+          "file": "file",
+          "page": "number",
+          "width": "number",
+          "height": "number",
+          "x": "number",
+          "y": "number"
+        }
+      ],
+      "description": "Signatures to add to your PDF. Supported image formats: PNG, JPEG, WEBP, BMP, GIF, ICO, TGA. **HINT**: click the magnifying glass to use the GUI.",
+      "control": {
+        "name": "jss/pdf-editor",
+        "input": "{ pdfFile, initCreateSignature: true }",
+        "output": "{ $: { signatures, options: { text: textLines, images } } }"
+      }
+    },
+    "options": {
+      "label": "Additional Options",
+      "collapse": true,
+      "type": {
+        "text": {
+          "type": [
+            {
+              "text": "string",
+              "font": {
+                "type": "string",
+                "description": "Name of a font. Only PDF-standard fonts are supported at this time."
+              },
+              "fontSize": "number",
+              "page": "number",
+              "x": "number",
+              "y": "number"
+            }
+          ],
+          "description": "Optionally add text - can be useful in some situations, eg. adding a date."
+        },
+        "images": {
+          "type": [
+            {
+              "file": "file",
+              "page": "number",
+              "width": "number",
+              "height": "number",
+              "x": "number",
+              "y": "number"
+            }
+          ],
+          "description": "Optionally add images. Supports the same image formats as the `Signatures` field."
+        }
+      }
+    }
+  },
+  "output": {
+    "signedPDF": "file"
+  }
+}
