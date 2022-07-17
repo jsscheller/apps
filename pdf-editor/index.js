@@ -30,6 +30,7 @@ export default class PDFEditor extends HTMLElement {
     this.tools = [];
     this.images = [];
     this.sigs = [];
+    this.deps = new Set(["styles.css"]);
     this.base = Object.assign(document.createElement("div"), {
       className: "base",
     });
@@ -51,14 +52,16 @@ export default class PDFEditor extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.append(
-      Object.assign(document.createElement("link"), {
-        rel: "stylesheet",
-        href: "styles.css",
-        onload: () => {
-          this.loadedStyles = true;
-          this.connectedCallback();
-        },
-      }),
+      ...Array.from(this.deps.values()).map((href) =>
+        Object.assign(document.createElement("link"), {
+          rel: "stylesheet",
+          href,
+          onload: () => {
+            this.deps.delete(href);
+            this.connectedCallback();
+          },
+        })
+      ),
       this.base
     );
 
@@ -326,19 +329,8 @@ export default class PDFEditor extends HTMLElement {
     });
     switch (id) {
       case "text": {
-        baseEl.append(
-          (this.toolFontEl = Object.assign(document.createElement("select"), {
-            innerHTML: FONTS.map((font) => `<option>${font}</option>`).join(""),
-            onchange: (e) => this.setFont(e.currentTarget.value),
-          })),
-          (this.toolFontSizeEl = Object.assign(
-            document.createElement("input"),
-            {
-              type: "number",
-              style: "width: 40px;",
-              onchange: (e) => this.setFontSize(e.currentTarget.value),
-            }
-          )),
+        const textSwitchesEl = document.createElement("div");
+        textSwitchesEl.append(
           (this.toolFontStyleEl = Object.assign(
             document.createElement("button"),
             {
@@ -367,11 +359,26 @@ export default class PDFEditor extends HTMLElement {
               onclick: () => this.toggleFontWeight(),
             }
           )),
-          (this.toolTextAlignEl = Object.assign(document.createElement("div"), {
+          (this.toolTextAlignEl = Object.assign(document.createElement("button"), {
             title: "Align",
             className: "toolbar-btn",
             onclick: () => this.toggleTextAlign(),
           }))
+        );
+        baseEl.append(
+          (this.toolFontEl = Object.assign(document.createElement("select"), {
+            innerHTML: FONTS.map((font) => `<option>${font}</option>`).join(""),
+            onchange: (e) => this.setFont(e.currentTarget.value),
+          })),
+          (this.toolFontSizeEl = Object.assign(
+            document.createElement("input"),
+            {
+              type: "number",
+              style: "width: 40px;",
+              onchange: (e) => this.setFontSize(e.currentTarget.value),
+            }
+          )),
+          textSwitchesEl,
         );
         this.updateTextToolPopover();
         break;
@@ -462,7 +469,7 @@ export default class PDFEditor extends HTMLElement {
   }
 
   connectedCallback() {
-    if (!this.loadedStyles || this.connected) return;
+    if (this.deps.size || this.connected) return;
     this.connected = true;
 
     this.pageContainerEl.addEventListener("scroll", this.onScroll.bind(this));
@@ -912,13 +919,15 @@ export default class PDFEditor extends HTMLElement {
         innerText: "Sign on the dotted line above.",
       }),
       Object.assign(document.createElement("button"), {
+        className: "btn btn-link",
+        innerText: "Close",
+        onclick: () => this.hideModal(),
+      }),
+      Object.assign(document.createElement("button"), {
+        className: "btn btn-primary",
         innerHTML: [svg(ICON_CHECK), " Done"].join(""),
         onclick: () => this.acceptSignature(),
       }),
-      Object.assign(document.createElement("button"), {
-        innerText: "Close",
-        onclick: () => this.hideModal(),
-      })
     );
     body.append(this.sigPad.base, footer);
 

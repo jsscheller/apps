@@ -1,3 +1,5 @@
+@import url(reboot.css);
+
 .base {
   --sidebar-width: 200px;
   --toolbar-height: 40px;
@@ -40,6 +42,12 @@
   align-items: center;
   transform: translateX(-50%);
   z-index: 1;
+  gap: 10px;
+}
+.toolbar-popover select, .toolbar-popover input {
+  height: 100%;
+  border-radius: 0;
+  border: none;
 }
 .sidebar {
   overflow-y: auto;
@@ -162,6 +170,40 @@
   width: 100%;
   border-bottom: 2px dashed var(--body-color);
 }
-button > svg {
+
+.btn {
+  --btn-padding-y: 0.375rem;
+  --btn-padding-x: 0.75rem;
+  --btn-font-size: 1rem;
+  display: inline-block;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-size: var(--btn-font-size);
+  color: var(--btn-color);
+  text-align: center;
+  text-decoration: none;
   vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background-color: var(--btn-bg);
+}
+.btn:hover {
+  background-color: var(--btn-hover-bg);
+  color: var(--btn-color);
+}
+.btn:active, .btn.active {
+  background-color: var(--btn-active-bg);
+}
+.btn-primary {
+  --btn-color: var(--body-bg);
+  --btn-bg: var(--primary);
+  --btn-hover-bg: #0a58ca;
+  --btn-active-bg: #0a58ca;
+  --btn-bevel-color: #1b61c8;
+}
+.btn-link {
+  --btn-color: var(--link-color);
+  --btn-bg: transparent;
+  --btn-hover-bg: transparent;
+  --btn-active-bg: transparent;
 }

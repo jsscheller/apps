@@ -10,7 +10,8 @@
     },
     "tool": {
       "type": "string",
-      "enum": ["text", "signature", "image"]
+      "enum": ["text", "signature", "image"],
+      "required": false
     },
     "initCreateSignature": "boolean"
   },

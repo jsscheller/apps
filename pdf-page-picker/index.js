@@ -1,6 +1,8 @@
 import { subprocess, fs } from "@jspawn/jspawn";
 
 const STYLES = `
+@import url(reboot.css);
+
 .base {
   background-color: var(--light);
   height: 100vh;
