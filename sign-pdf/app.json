@@ -23,11 +23,10 @@
       "control": {
         "name": "jss/pdf-editor",
         "input": "{ pdfFile, initCreateSignature: true }",
-        "output": "{ $: { signatures, options: { text: textLines, images } } }"
+        "output": "{ $: { signatures, otherAdditions: { text: textLines, images } } }"
       }
     },
-    "options": {
-      "label": "Additional Options",
+    "otherAdditions": {
       "collapse": true,
       "type": {
         "text": {

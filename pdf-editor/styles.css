@@ -140,7 +140,6 @@
 .modal {
   position: absolute;
   z-index: 1;
-  width: 50vw;
   max-width: 1000px;
   background-color: var(--body-bg);
   top: 10vh;

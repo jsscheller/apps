@@ -672,7 +672,7 @@ export default class PDFPagePicker extends HTMLElement {
 
 function svg(inner) {
   inner = inner.join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">${inner}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">${inner}</svg>`;
 }
 
 function compressPageSelection(pages) {

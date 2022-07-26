@@ -22,7 +22,7 @@ describe("tests", function () {
           y: 0,
         },
       ],
-      options: {
+      otherAdditions: {
         text: [],
         images: [],
       },

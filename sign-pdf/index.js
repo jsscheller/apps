@@ -1,7 +1,7 @@
 import { subprocess, fs } from "@jspawn/jspawn";
 
 export default async function (input) {
-  let edits = input.signatures.concat(input.options.images).map((x) => ({
+  let edits = input.signatures.concat(input.otherAdditions.images).map((x) => ({
     op: "add_image",
     page: x.page,
     placement: {
@@ -13,7 +13,7 @@ export default async function (input) {
     image: x.file.name,
   }));
   edits = edits.concat(
-    input.options.text.map((x) => ({
+    input.otherAdditions.text.map((x) => ({
       op: "add_text",
       page: x.page,
       placement: {

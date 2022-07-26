@@ -11,7 +11,7 @@
     "quality": {
       "type": "number",
       "default": 92,
-      "description": "A value from 0 (worst) to 100 (best) indicating the JPEG quality."
+      "description": "A value from 0 (worst quality/smallest size) to 100 (best quality/largest size) indicating the JPEG quality."
     },
     "filter": {
       "collapse": true,
