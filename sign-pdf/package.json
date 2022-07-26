@@ -7,7 +7,7 @@
     "mocha": "^10.0.0"
   },
   "dependencies": {
-    "@jspawn/jspawn": "^0.3.0",
+    "@jspawn/jspawn": "^0.3.1",
     "@jspawn/pdfr-wasm": "^0.0.3"
   }
 }

@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "@jspawn/pdfr-wasm": "^0.0.3",
-    "@jspawn/jspawn": "^0.3.0"
+    "@jspawn/jspawn": "^0.3.1"
   }
 }

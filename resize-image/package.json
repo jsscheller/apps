@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "@jspawn/imagemagick-wasm": "^0.1.1",
-    "@jspawn/jspawn": "^0.3.0"
+    "@jspawn/jspawn": "^0.3.1"
   },
   "devDependencies": {
     "mocha": "^10.0.0"
