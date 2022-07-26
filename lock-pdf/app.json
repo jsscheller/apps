@@ -1,0 +1,31 @@
+{
+  "name": "lock-pdf",
+  "description": "Create a password-protected PDF",
+  "source": "https://github.com/jsscheller/apps/blob/master/lock-pdf/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "pdfFile": "file",
+    "encryption": {
+      "type": "string",
+      "enum": ["256-bit AES", "128-bit AES"],
+      "default": "256-bit AES",
+      "description": [
+        "At the time of this writing, both `256-bit AES` and `128-bit AES` encryption are considered secure.",
+        "`256-bit AES` is stronger and should be preferred. However, `256-bit AES` requires PDF version 1.7 whereas `128-bit AES` requires just 1.6.",
+        "Learn more about PDF encryption [here](https://qpdf.readthedocs.io/en/latest/encryption.html)."
+      ]
+    },
+    "password": {
+      "type": "string",
+      "secret": true
+    },
+    "passwordAgain": {
+      "type": "string",
+      "secret": true,
+      "valid_if": "password === passwordAgain"
+    }
+  },
+  "output": {
+    "lockedPDF": "file"
+  }
+}
