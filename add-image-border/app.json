@@ -1,0 +1,34 @@
+{
+  "name": "add-image-border",
+  "version": "0.0.1",
+  "description": "Add a solid border around your image",
+  "source": "https://github.com/jsscheller/apps/blob/master/add-image-border/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": "file",
+    "borderColor": {
+      "type": "string",
+      "picker": "color",
+      "description": "Border color in hexadecimal format (eg. #ff9933)."
+    },
+    "borderWidth": {
+      "type": "number",
+      "description": "The width of the border in pixels."
+    },
+    "placement": {
+      "type": "string",
+      "enum": ["outside", "inside", "center"],
+      "default": "outside",
+      "description": [
+        "Choose where the border will be drawn:",
+        "- **Outside**: draw the border around the image - increasing the dimensions of the resulting image",
+        "- **Inside**: draw the border so that the dimensions stay the same - results in part of the image being covered by the border",
+        "- **Center**: the dimensions will increase by half the border width - the other half of the border covers the image"
+      ]
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

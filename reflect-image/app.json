@@ -1,0 +1,22 @@
+{
+  "name": "reflect-image",
+  "version": "0.0.1",
+  "description": "Reflect an image",
+  "source": "https://github.com/jsscheller/apps/blob/master/reflect-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": "file",
+    "reflectX": {
+      "type": "boolean",
+      "description": "Flop the image across its horizontal axis."
+    },
+    "reflectY": {
+      "type": "boolean",
+      "description": "Flip the image across its vertical axis."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

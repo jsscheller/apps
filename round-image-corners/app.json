@@ -1,0 +1,24 @@
+{
+  "name": "round-image-corners",
+  "version": "0.0.1",
+  "description": "Round the corners of an image",
+  "source": "https://github.com/jsscheller/apps/blob/master/round-image-corners/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": "file",
+    "borderRadius": {
+      "type": "number",
+      "description": "Border radius in pixels."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["noChange", "PNG", "JPEG"],
+      "default": "noChange",
+      "description": "Optionally change the output format."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

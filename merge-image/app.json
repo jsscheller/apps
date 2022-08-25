@@ -1,0 +1,41 @@
+{
+  "name": "merge-image",
+  "version": "0.0.1",
+  "description": "Stitch images together",
+  "source": "https://github.com/jsscheller/apps/blob/master/merge-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFiles": ["file"],
+    "rows": {
+      "type": "number",
+      "required": false,
+      "description": "Number of horizontal rows."
+    },
+    "columns": {
+      "type": "number",
+      "required": false,
+      "description": "Number of vertical columns."
+    },
+    "spacing": {
+      "type": "number",
+      "default": 0,
+      "description": "Spacing between the images in pixels."
+    },
+    "backgroundColor": {
+      "type": "string",
+      "required": false,
+      "picker": "color",
+      "description": "Background color in hexadecimal format (eg. #ff9933). Only useful if your images have transparency."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["JPEG", "PNG", "WEBP"],
+      "default": "JPEG",
+      "description": "Output image format."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

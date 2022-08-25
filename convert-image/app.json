@@ -1,0 +1,30 @@
+{
+  "name": "convert-image",
+  "version": "0.0.1",
+  "description": "Convert image formats",
+  "source": "https://github.com/jsscheller/apps/blob/master/convert-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": "file",
+    "convertTo": {
+      "type": "string",
+      "enum": [
+        "BMP",
+        "GIF",
+        "ICO",
+        "PNG",
+        "TGA",
+        "TIFF",
+        "WEBP",
+        "WBMP",
+        "PNG",
+        "JPEG"
+      ],
+      "description": "**Note**: vector formats such as `.ai`, `.eps`, `.svg` are not supported at this time."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

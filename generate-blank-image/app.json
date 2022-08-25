@@ -1,0 +1,24 @@
+{
+  "name": "generate-blank-image",
+  "version": "0.0.1",
+  "description": "Create a blank image with a solid color",
+  "source": "https://github.com/jsscheller/apps/blob/master/generate-blank-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "width": "number",
+    "height": "number",
+    "color": {
+      "type": "string",
+      "picker": "color",
+      "description": "The color in hexadecimal format."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["PNG", "JPEG", "BMP", "ICO", "TIFF"]
+    }
+  },
+  "output": {
+    "blankImage": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

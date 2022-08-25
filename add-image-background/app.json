@@ -1,0 +1,22 @@
+{
+  "name": "add-image-background",
+  "version": "0.0.2",
+  "description": "Add a solid background to transparent images",
+  "source": "https://github.com/jsscheller/apps/blob/master/add-image-background/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": {
+      "type": "file",
+      "description": "Must have transparency (eg. a PNG file) in order for this app to work."
+    },
+    "backgroundColor": {
+      "type": "string",
+      "picker": "color",
+      "description": "Background color in hexadecimal format (eg. #ff9933)."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

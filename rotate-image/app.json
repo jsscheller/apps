@@ -1,0 +1,18 @@
+{
+  "name": "rotate-image",
+  "version": "0.0.1",
+  "description": "Rotate an image",
+  "source": "https://github.com/jsscheller/apps/blob/master/rotate-image/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "imageFile": "file",
+    "angle": {
+      "type": "number",
+      "description": "The angle of rotation in degrees."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}
