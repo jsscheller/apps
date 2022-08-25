@@ -1,16 +1,20 @@
 import main from "./index.js";
-import * as fs from "fs/promises";
+import * as testUtil from "test-util";
 import * as assert from "assert";
+
+beforeEach(async function () {
+  await testUtil.initFS({
+    "sample.pdf": "./sample.pdf",
+  });
+});
 
 describe("tests", function () {
   it("should work", async function () {
     const out = await main({
       pdfFile: {
-        name: "sample.pdf",
-        contents: await fs.readFile("sample.pdf"),
+        path: testUtil.inPath("sample.pdf"),
       },
     });
-    assert.equal(out.compressedPDF.name, "sample-compressed.pdf");
-    assert.ok(out.compressedPDF.contents.size > 0);
+    assert.equal(out.compressedPDF, testUtil.outPath("sample-compressed.pdf"));
   });
 });

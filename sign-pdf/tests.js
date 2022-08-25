@@ -1,20 +1,21 @@
 import main from "./index.js";
-import * as fs from "fs/promises";
 import * as assert from "assert";
+import * as testUtil from "test-util";
+
+beforeEach(async function () {
+  await testUtil.initFS({
+    "sample.pdf": "./sample.pdf",
+    "sig.png": "./sig.png",
+  });
+});
 
 describe("tests", function () {
   it("should work", async function () {
     const out = await main({
-      pdfFile: {
-        name: "sample.pdf",
-        contents: await fs.readFile("sample.pdf"),
-      },
+      pdfFile: { path: testUtil.inPath("sample.pdf") },
       signatures: [
         {
-          file: {
-            name: "sig.png",
-            contents: await fs.readFile("sig.png"),
-          },
+          file: { path: testUtil.inPath("sig.png") },
           page: 1,
           width: 100,
           height: 100,
@@ -27,7 +28,6 @@ describe("tests", function () {
         images: [],
       },
     });
-    assert.equal(out.signedPDF.name, "sample-signed.pdf");
-    assert.ok(out.signedPDF.contents.size > 0);
+    assert.equal(out.signedPDF, testUtil.outPath("sample-signed.pdf"));
   });
 });

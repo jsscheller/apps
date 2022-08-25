@@ -1,4 +1,5 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
   let edits = input.signatures.concat(input.otherAdditions.images).map((x) => ({
@@ -10,7 +11,7 @@ export default async function (input) {
       width: x.width,
       height: x.height,
     },
-    image: x.file.name,
+    image: x.file.path,
   }));
   edits = edits.concat(
     input.otherAdditions.text.map((x) => ({
@@ -27,37 +28,14 @@ export default async function (input) {
   );
   await fs.writeFile("edits.json", JSON.stringify(edits));
 
-  for (const sig of input.signatures) {
-    await fs.writeFile(sig.file.name, sig.file.contents);
-  }
-
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
-
-  const outPath = addSuffix("-signed", input.pdfFile.name);
+  const outPath = util.outPath(input.pdfFile.path, { suffix: "-signed" });
 
   await subprocess.run("pdfr", [
     "edit",
     "edits.json",
-    input.pdfFile.name,
+    input.pdfFile.path,
     outPath,
   ]);
 
-  return {
-    signedPDF: {
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    },
-  };
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
+  return { signedPDF: outPath };
 }

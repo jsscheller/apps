@@ -1,21 +1,43 @@
 {
   "name": "image-to-pdf",
-  "description": "Convert images to PDF",
+  "version": "0.0.1",
+  "description": "Convert images to PDFs",
   "source": "https://github.com/jsscheller/apps/blob/master/image-to-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
   "input": {
     "imageFiles": {
       "type": ["file"],
-      "description": "Supported image formats: PNG, JPEG, WEBP, BMP, GIF, ICO, TGA."
+      "description": "Supported image formats: PNG, JPEG."
     },
     "dpi": {
       "label": "DPI",
       "type": "number",
-      "default": 300,
-      "description": "Dots-per-inch - really only relevant if you intend to print the PDF file."
+      "default": 72,
+      "description": "Dots-per-inch - really only relevant if you intend to print the PDF file. Leave the default value if you are unsure."
+    },
+    "searchable": {
+      "type": "boolean",
+      "description": "Use OCR (optical character recognition) to overlay a text layer on your image(s) which allows the resulting PDF to be searchable. Only english is supported at this time."
+    },
+    "singlePDF": {
+      "type": "boolean",
+      "description": "Combine images into a single PDF with multiple pages. By default, a single-page PDF is created for each image."
     }
   },
   "output": {
-    "pdf": "file"
-  }
+    "pdfs": {
+      "label": "PDFs",
+      "type": ["file"]
+    }
+  },
+  "include": [
+    "node_modules/@jspawn/",
+    "node_modules/apps-util/",
+    {
+      "tessdata": {
+        "eng.traineddata": "tessdata/eng.traineddata",
+        "configs": "node_modules/@jspawn/tesseract-wasm/tessdata/configs"
+      }
+    }
+  ]
 }

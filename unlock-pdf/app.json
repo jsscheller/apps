@@ -1,5 +1,6 @@
 {
   "name": "unlock-pdf",
+  "version": "0.0.1",
   "description": "Remove PDF encryption",
   "source": "https://github.com/jsscheller/apps/blob/master/unlock-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -17,5 +18,6 @@
   },
   "output": {
     "unlockedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

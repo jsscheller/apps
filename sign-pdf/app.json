@@ -1,5 +1,6 @@
 {
   "name": "sign-pdf",
+  "version": "0.0.2",
   "description": "Add your signature to a PDF",
   "source": "https://github.com/jsscheller/apps/blob/master/sign-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -9,6 +10,7 @@
       "label": "PDF File"
     },
     "signatures": {
+      "required": false,
       "type": [
         {
           "file": "file",
@@ -19,9 +21,9 @@
           "y": "number"
         }
       ],
-      "description": "Signatures to add to your PDF. Supported image formats: PNG, JPEG, WEBP, BMP, GIF, ICO, TGA. **HINT**: click the magnifying glass to use the GUI.",
-      "control": {
-        "name": "jss/pdf-editor",
+      "description": "Signatures to add to your PDF. Supported image formats: PNG, JPEG, WEBP, BMP, GIF, ICO, TGA.",
+      "picker": {
+        "name": "js/pdf-editor",
         "input": "{ pdfFile, initCreateSignature: true }",
         "output": "{ $: { signatures, otherAdditions: { text: textLines, images } } }"
       }
@@ -30,6 +32,7 @@
       "collapse": true,
       "type": {
         "text": {
+          "required": false,
           "type": [
             {
               "text": "string",
@@ -46,6 +49,7 @@
           "description": "Optionally add text - can be useful in some situations, eg. adding a date."
         },
         "images": {
+          "required": false,
           "type": [
             {
               "file": "file",
@@ -63,5 +67,6 @@
   },
   "output": {
     "signedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

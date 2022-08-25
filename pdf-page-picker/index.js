@@ -1,129 +1,10 @@
 import { subprocess, fs } from "@jspawn/jspawn";
 
-const STYLES = `
-@import url(reboot.css);
-
-.base {
-  background-color: var(--light);
-  height: 100vh;
-  overflow-y: auto;
-  position: relative;
-}
-.container, .split-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 1rem;
-}
-.page {
-  position: relative;
-  flex-shrink: 0;
-  background-color: var(--body-color);
-}
-.page.selected {
-  outline: 4px solid var(--primary);
-}
-.page-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.checkbox {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: var(--body-bg);
-  outline: 4px solid var(--body-color);
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  z-index: 1;
-  text-align: center;
-  color: var(--body-bg);
-}
-.checkbox > svg {
-  display: none;
-}
-.selected .checkbox {
-  outline-color: var(--primary);
-  background-color: var(--primary);
-}
-.selected .checkbox > svg {
-  display: inline-block;
-}
-.toolbar {
-  position: absolute;
-  right: -4px;
-  bottom: -4px;
-  display: none;
-}
-.page:hover > .toolbar {
-  display: block;
-}
-.moving .toolbar, .moving .checkbox, .moving .split-target {
-  display: none !important;
-}
-.toolbar-btn {
-  cursor: pointer;
-  border-radius: 0;
-  border: 0;
-  outline: 1px solid var(--body-color);
-  padding: 4px 6px;
-  background-color: var(--body-bg);
-}
-.toolbar-btn > svg {
-  vertical-align: middle;
-}
-.shadow-container {
-  position: absolute;
-  display: none;
-  pointer-events: none;
-  opacity: 0.5;
-}
-.move-indicator {
-  top: 0;
-  left: -2px;
-  width: 4px;
-  background-color: var(--primary);
-  position: absolute;
-  display: none;
-}
-.split-container {
-  position: absolute;
-}
-.split-container > div {
-  text-align: right;
-}
-.split-target {
-  display: inline-block;
-  height: 100%;
-  outline: 1px dashed var(--body-color);
-  text-align: center;
-  cursor: pointer;
-}
-.split-target > svg {
-  height: 95%;
-  pointer-events: none;
-  width: 28px;
-  display: none;
-}
-.split-target:hover > svg {
-  display: inline-block;
-}
-.split-target.active {
-  outline: 2px solid var(--primary);
-}
-.split-target.active > svg {
-  display: none !important;
-}
-`;
-
 export default class PDFPagePicker extends HTMLElement {
   constructor(input) {
     super();
     this.input = input;
+    this.deps = new Set(["styles.css"]);
     this.pageWidth = 200;
     this.pageHeight = Math.round((this.pageWidth / 8.5) * 11);
     this.marginX = input.allowSplit ? 20 : 6;
@@ -131,6 +12,7 @@ export default class PDFPagePicker extends HTMLElement {
     this.batchSize = 10;
     this.base = Object.assign(document.createElement("div"), {
       className: "base",
+      style: "display:none",
       onclick: this.onClick.bind(this),
       onmousedown: this.onMouseDown.bind(this),
     });
@@ -157,9 +39,16 @@ export default class PDFPagePicker extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.append(
-      Object.assign(document.createElement("style"), {
-        textContent: STYLES,
-      }),
+      ...Array.from(this.deps.values()).map((href) =>
+        Object.assign(document.createElement("link"), {
+          rel: "stylesheet",
+          href,
+          onload: () => {
+            this.deps.delete(href);
+            this.connectedCallback();
+          },
+        })
+      ),
       this.base
     );
 
@@ -168,6 +57,11 @@ export default class PDFPagePicker extends HTMLElement {
   }
 
   async connectedCallback() {
+    if (this.deps.size || this.connected) return;
+    this.connected = true;
+
+    this.base.style.display = "";
+
     this.base.addEventListener("scroll", this.onScroll.bind(this));
     this.requestRender();
   }
@@ -459,13 +353,9 @@ export default class PDFPagePicker extends HTMLElement {
 
   async render() {
     if (!this.pageCounts) {
-      for (const file of this.input.pdfFiles) {
-        await fs.writeFile(file.name, file.contents);
-      }
-
       this.pageCounts = [];
       for (const [filePos, file] of this.input.pdfFiles.entries()) {
-        const output = await subprocess.run("qpdf", ["--json", file.name]);
+        const output = await subprocess.run("qpdf", ["--json", file.path]);
 
         const json = JSON.parse(output.stdout);
 
@@ -525,11 +415,12 @@ export default class PDFPagePicker extends HTMLElement {
     for (const [from, pages] of Object.entries(groupedPagesToRender)) {
       const file = this.input.pdfFiles[parseInt(from)];
 
+      const renderWidth = Math.ceil(this.pageWidth / 4) * 4;
       await subprocess.run("pdfr", [
         "render",
-        `--size=${this.pageWidth}x`,
+        `--size=${renderWidth}x`,
         `--pages=${pages.map((pageState) => pageState.page).join(",")}`,
-        file.name,
+        file.path,
         "out",
       ]);
 

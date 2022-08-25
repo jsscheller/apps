@@ -1,4 +1,5 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
   let rotate;
@@ -17,11 +18,10 @@ export default async function (input) {
       break;
   }
 
-  const outPath = addSuffix("-rotated", input.pdfFile.name);
+  const outPath = util.outPath(input.pdfFile.path, { suffix: "-rotated" });
 
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
   await subprocess.run("qpdf", [
-    input.pdfFile.name,
+    input.pdfFile.path,
     "--pages",
     ".",
     "1-z",
@@ -30,28 +30,11 @@ export default async function (input) {
     ...rotate,
   ]);
 
-  return {
-    rotatedPDF: {
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    },
-  };
+  return { rotatedPDF: outPath };
 }
 
 function normAngle(deg) {
   deg = deg % 360;
   if (deg < 0) deg += 360;
   return deg;
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
 }

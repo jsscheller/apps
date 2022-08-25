@@ -1,9 +1,8 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
-
-  const gsOutPath = addSuffix("-gs", input.pdfFile.name);
+  const gsOutPath = util.outPath(input.pdfFile.path, { suffix: "-gs" });
   await subprocess.run("gs", [
     // https://ghostscript.com/doc/current/VectorDevices.htm
     "-o",
@@ -20,10 +19,10 @@ export default async function (input) {
     "-c",
     "<</NeverEmbed [ /Courier /Courier-Bold /Courier-Oblique /Courier-BoldOblique /Helvetica /Helvetica-Bold /Helvetica-Oblique /Helvetica-BoldOblique /Times-Roman /Times-Bold /Times-Italic /Times-BoldItalic /Symbol /ZapfDingbats /Arial ]>> setdistillerparams",
     "-f",
-    input.pdfFile.name,
+    input.pdfFile.path,
   ]);
 
-  const outPath = addSuffix("-compressed", input.pdfFile.name);
+  const outPath = util.outPath(input.pdfFile.path, { suffix: "-compressed" });
   await subprocess.run("qpdf", [
     // https://qpdf.readthedocs.io/en/latest/cli.html
     gsOutPath,
@@ -34,22 +33,5 @@ export default async function (input) {
     outPath,
   ]);
 
-  return {
-    compressedPDF: {
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    },
-  };
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
+  return { compressedPDF: outPath };
 }

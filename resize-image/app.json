@@ -1,4 +1,6 @@
 {
+  "name": "resize-image",
+  "version": "0.0.1",
   "description": "Resize an image by width, height, area, or a percentage",
   "source": "https://github.com/jsscheller/apps/blob/master/resize-image/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -42,6 +44,7 @@
       "type": "string",
       "default": "#000000",
       "show_if": "method === 'pad' || exactMatch",
+      "picker": "color",
       "description": "The color of the padding (border) in hexadecimal format."
     },
     "dimension": {
@@ -69,5 +72,6 @@
   },
   "output": {
     "resizedImage": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

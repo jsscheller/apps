@@ -1,6 +1,8 @@
 {
   "name": "pdf-editor",
-  "description": "Edit a PDF",
+  "version": "0.0.1",
+  "interface": "picker",
+  "description": "A picker for editing PDFs",
   "source": "https://github.com/jsscheller/apps/blob/master/pdf-editor/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
   "input": {
@@ -46,5 +48,6 @@
         "y": "number"
       }
     ]
-  }
+  },
+  "include": ["node_modules/@jspawn/", "styles.css"]
 }

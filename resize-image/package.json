@@ -5,9 +5,11 @@
   },
   "dependencies": {
     "@jspawn/imagemagick-wasm": "^0.1.1",
-    "@jspawn/jspawn": "^0.3.1"
+    "@jspawn/jspawn": "^0.4.0",
+    "apps-util": "file:../apps-util"
   },
   "devDependencies": {
-    "mocha": "^10.0.0"
+    "mocha": "^10.0.0",
+    "test-util": "file:../test-util"
   }
 }

@@ -1,4 +1,6 @@
 {
+  "name": "remove-pdf-pages",
+  "version": "0.0.1",
   "description": "Delete pages from a PDF",
   "source": "https://github.com/jsscheller/apps/blob/master/remove-pdf-pages/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -46,8 +48,8 @@
         "| `r1-r3` | the last three pages of the document in reverse order |",
         "| `5,7-9,12` | pages 5, 7, 8, 9, and 12 |"
       ],
-      "control": {
-        "name": "jss/pdf-page-picker",
+      "picker": {
+        "name": "js/pdf-page-picker",
         "input": "{ pdfFiles: [pdfFile], allowSelect: true, allowMove: true }",
         "output": "docs[0][0].pages"
       }
@@ -61,5 +63,6 @@
   },
   "output": {
     "trimmedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

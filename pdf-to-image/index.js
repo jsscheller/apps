@@ -1,7 +1,8 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
-  const outDir = "out";
+  const outDir = util.outPath("out");
   const opts = [`--quality=${input.quality}`];
   if (input.size.width || input.size.height) {
     const size = [input.size.width, "x", input.size.height]
@@ -13,15 +14,11 @@ export default async function (input) {
     opts.push(`--pages=${input.pages}`);
   }
 
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
-  await subprocess.run("pdfr", ["render", ...opts, input.pdfFile.name, outDir]);
+  await subprocess.run("pdfr", ["render", ...opts, input.pdfFile.path, outDir]);
 
   const images = [];
   for (const name of await fs.readdir(outDir)) {
-    images.push({
-      name,
-      contents: await fs.readFileToBlob(`${outDir}/${name}`),
-    });
+    images.push(`${outDir}/${name}`);
   }
   return { images };
 }

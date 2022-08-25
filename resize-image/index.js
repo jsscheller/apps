@@ -1,7 +1,8 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
-export default async function (input) {
-  const args = [input.imageFile.name, "-resize"];
+export default async function main(input) {
+  const args = [input.imageFile.path, "-resize"];
 
   switch (input.resizeBy) {
     case "width":
@@ -71,29 +72,11 @@ export default async function (input) {
       break;
   }
 
-  const outPath = addSuffix("-resized", input.imageFile.name);
+  const outPath = util.outPath(input.imageFile.path, { suffix: "-resized" });
 
   args.push(outPath);
 
-  await fs.writeFile(input.imageFile.name, input.imageFile.contents);
   await subprocess.run("magick", args);
 
-  return {
-    resizedImage: {
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    },
-  };
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
+  return { resizedImage: outPath };
 }

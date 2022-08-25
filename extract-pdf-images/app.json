@@ -1,7 +1,8 @@
 {
   "name": "extract-pdf-images",
+  "version": "0.0.1",
   "description": "Extract images from a PDF",
-  "source": "https://github.com/jsscheller/apps/blob/master/sign-pdf/index.js",
+  "source": "https://github.com/jsscheller/apps/blob/master/extract-pdf-images/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
   "input": {
     "pdfFile": {
@@ -40,5 +41,6 @@
   },
   "output": {
     "images": ["file"]
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

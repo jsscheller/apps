@@ -1,10 +1,12 @@
 {
   "type": "module",
   "scripts": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "test-util": "file:../test-util"
+  },
   "dependencies": {
     "@jspawn/pdfr-wasm": "^0.0.3",
-    "@jspawn/jspawn": "^0.3.1",
+    "@jspawn/jspawn": "^0.4.0",
     "@jspawn/qpdf-wasm": "^0.0.1"
   }
 }

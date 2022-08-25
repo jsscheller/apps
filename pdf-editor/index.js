@@ -33,6 +33,7 @@ export default class PDFEditor extends HTMLElement {
     this.deps = new Set(["styles.css"]);
     this.base = Object.assign(document.createElement("div"), {
       className: "base",
+      style: "display:none",
     });
     this.pageContainerEl = Object.assign(document.createElement("div"), {
       className: "page-container",
@@ -472,6 +473,8 @@ export default class PDFEditor extends HTMLElement {
     if (this.deps.size || this.connected) return;
     this.connected = true;
 
+    this.base.style.display = "";
+
     this.pageContainerEl.addEventListener("scroll", this.onScroll.bind(this));
     this.requestRender();
     this.selectTool(this.input.tool || "move");
@@ -560,11 +563,9 @@ export default class PDFEditor extends HTMLElement {
 
   async render() {
     if (this.pageCount == null) {
-      await fs.writeFile(this.input.pdfFile.name, this.input.pdfFile.contents);
-
       const output = await subprocess.run("qpdf", [
         "--json",
-        this.input.pdfFile.name,
+        this.input.pdfFile.path,
       ]);
 
       const json = JSON.parse(output.stdout);
@@ -595,11 +596,12 @@ export default class PDFEditor extends HTMLElement {
 
     if (pageToRender == null) return;
 
+    const renderWidth = Math.ceil(pageToRender.rect.width / 4) * 4;
     await subprocess.run("pdfr", [
       "render",
-      `--size=${pageToRender.rect.width}x`,
+      `--size=${renderWidth}x`,
       `--pages=${pageToRender.page}`,
-      this.input.pdfFile.name,
+      this.input.pdfFile.path,
       "out",
     ]);
 

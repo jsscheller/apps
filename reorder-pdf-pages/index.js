@@ -1,4 +1,5 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
   let pages,
@@ -12,11 +13,10 @@ export default async function (input) {
       break;
   }
 
-  const outPath = addSuffix("-reordered", input.pdfFile.name);
+  const outPath = util.outPath(input.pdfFile.path, { suffix: "-reordered" });
 
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
   await subprocess.run("qpdf", [
-    input.pdfFile.name,
+    input.pdfFile.path,
     "--pages",
     ".",
     pages,
@@ -25,12 +25,7 @@ export default async function (input) {
     ...rotate,
   ]);
 
-  return {
-    reorderedPDF: {
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    },
-  };
+  return { reorderedPDF: outPath };
 }
 
 function parsePageSelection(sel) {
@@ -50,16 +45,4 @@ function parsePageSelection(sel) {
     }
   }
   return { pages, rotate };
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
 }

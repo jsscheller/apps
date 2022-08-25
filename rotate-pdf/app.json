@@ -1,5 +1,6 @@
 {
   "name": "rotate-pdf",
+  "version": "0.0.1",
   "description": "Rotate a PDF",
   "source": "https://github.com/jsscheller/apps/blob/master/rotate-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -14,7 +15,7 @@
       "description": [
         "- **Relative**: update the rotation of each page relative to its current rotation",
         "- **Fixed**: set the rotation of each page - disregarding its current rotation",
-        "- **Custom**: specify the rotation for each page/page range"
+        "- **Custom**: specify the rotation for each page/page-range"
       ]
     },
     "rotate": {
@@ -26,7 +27,7 @@
           },
           "relative": {
             "type": "boolean",
-            "default": "true",
+            "default": true,
             "description": "Rotate the page relative to its current rotation."
           },
           "pages": {
@@ -52,8 +53,8 @@
         }
       ],
       "show_if": "method === 'custom'",
-      "control": {
-        "name": "jss/pdf-page-picker",
+      "picker": {
+        "name": "js/pdf-page-picker",
         "input": "{ pdfFiles: [pdfFile], allowRotate: true }",
         "output": "rotate.map((item) => ({ angle: item.angle, pages: item.pages, relative: true }))"
       }
@@ -66,5 +67,6 @@
   },
   "output": {
     "rotatedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

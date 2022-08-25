@@ -1,5 +1,6 @@
 {
   "name": "compress-pdf",
+  "version": "0.0.1",
   "description": "Reduce the size of a PDF",
   "source": "https://github.com/jsscheller/apps/blob/master/compress-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -11,5 +12,6 @@
   },
   "output": {
     "compressedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

@@ -1,14 +1,17 @@
 import main from "./index.js";
-import * as fs from "fs/promises";
 import * as assert from "assert";
+import * as testUtil from "test-util";
+
+beforeEach(async function () {
+  await testUtil.initFS({
+    "sample.pdf": "./sample.pdf",
+  });
+});
 
 describe("tests", function () {
   it("should work", async function () {
     const out = await main({
-      pdfFile: {
-        name: "sample.pdf",
-        contents: await fs.readFile("sample.pdf"),
-      },
+      pdfFile: { path: testUtil.inPath("sample.pdf") },
       method: "custom",
       rotate: [
         {
@@ -18,7 +21,6 @@ describe("tests", function () {
         },
       ],
     });
-    assert.equal(out.rotatedPDF.name, "sample-rotated.pdf");
-    assert.ok(out.rotatedPDF.contents.size > 0);
+    assert.equal(out.rotatedPDF, testUtil.outPath("sample-rotated.pdf"));
   });
 });

@@ -1,12 +1,11 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
-
-  const outPath = addSuffix("-unlocked", input.pdfFile.name);
+  const outPath = util.outPath(input.pdfFile.path, { suffix: "-unlocked" });
   try {
     await subprocess.run("qpdf", [
-      input.pdfFile.name,
+      input.pdfFile.path,
       ...(input.password ? [`--password=${input.password}`] : []),
       "--decrypt",
       outPath,
@@ -18,22 +17,5 @@ export default async function (input) {
     throw err;
   }
 
-  return {
-    unlockedPDF: {
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    },
-  };
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
+  return { unlockedPDF: outPath };
 }

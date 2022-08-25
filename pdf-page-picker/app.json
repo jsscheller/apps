@@ -1,5 +1,8 @@
 {
-  "description": "Page selector for PDFs",
+  "name": "pdf-page-picker",
+  "version": "0.0.1",
+  "interface": "picker",
+  "description": "Page picker for PDFs - select, move, rotate, delete and split",
   "source": "https://github.com/jsscheller/apps/blob/master/pdf-page-picker/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
   "input": {
@@ -20,5 +23,6 @@
       ]
     ],
     "rotate": [{ "angle": "number", "pages": "string" }]
-  }
+  },
+  "include": ["node_modules/@jspawn/", "styles.css"]
 }

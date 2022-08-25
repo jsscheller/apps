@@ -38,32 +38,26 @@
   <script type="importmap">
   {
     "imports": {
-      "@jspawn/jspawn": "/node_modules/@jspawn/jspawn/esm/jspawn.mjs"
+      "@jspawn/jspawn": "/node_modules/@jspawn/jspawn/esm/jspawn.mjs",
+      "test-util": "/node_modules/test-util/index.js"
     }
   }
   </script>
   <script type="module">
     import { subprocess } from "@jspawn/jspawn";
+    import * as testUtil from "test-util";
     import PDFPagePicker from "./index.js";
 
-    subprocess.setBinarySearchPath([
-      "/node_modules/@jspawn/pdfr-wasm/pdfr.wasm",
-      "/node_modules/@jspawn/qpdf-wasm/qpdf.wasm",
-    ]);
+    await testUtil.initFS({
+      "sample.pdf": "/sample.pdf",
+      "sizes.pdf": "/sizes.pdf",
+    });
 
-    const rotatePDF = await (await fetch("rotate.pdf")).blob();
-    const sizesPDF = await (await fetch("sizes.pdf")).blob();
     customElements.define('pdf-page-picker', PDFPagePicker);
     const pdfPagePicker = new PDFPagePicker({
       pdfFiles: [
-        {
-          name: "sample.pdf",
-          contents: rotatePDF,
-        },
-        {
-          name: "sizes.pdf",
-          contents: sizesPDF,
-        }
+        { name: "sample.pdf", path: testUtil.inPath("sample.pdf") },
+        { name: "sizes.pdf", path: testUtil.inPath("sizes.pdf") },
       ],
       allowSelect: true,
       allowMove: false,

@@ -38,25 +38,23 @@
   <script type="importmap">
   {
     "imports": {
-      "@jspawn/jspawn": "/node_modules/@jspawn/jspawn/esm/jspawn.mjs"
+      "@jspawn/jspawn": "/node_modules/@jspawn/jspawn/esm/jspawn.mjs",
+      "test-util": "/node_modules/test-util/index.js"
     }
   }
   </script>
   <script type="module">
     import { subprocess } from "@jspawn/jspawn";
+    import * as testUtil from "test-util";
     import PDFEditor from "./index.js";
 
-    subprocess.setBinarySearchPath([
-      "/node_modules/@jspawn/pdfr-wasm/pdfr.wasm",
-      "/node_modules/@jspawn/qpdf-wasm/qpdf.wasm",
-    ]);
+    await testUtil.initFS({
+      "sample.pdf": "/sample.pdf",
+    });
 
     customElements.define('pdf-page-picker', PDFEditor);
     const pdfEditor = new PDFEditor({
-      pdfFile: {
-        name: "sample.pdf",
-        contents: await (await fetch("sample.pdf")).blob(),
-      },
+      pdfFile: { path: testUtil.inPath("sample.pdf") },
       tool: "text",
       initCreateSignature: false,
     });

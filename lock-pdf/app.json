@@ -1,5 +1,6 @@
 {
   "name": "lock-pdf",
+  "version": "0.0.1",
   "description": "Create a password-protected PDF",
   "source": "https://github.com/jsscheller/apps/blob/master/lock-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -17,7 +18,8 @@
     },
     "password": {
       "type": "string",
-      "secret": true
+      "secret": true,
+      "description": "Passwords should be 7 characters or more using a combination of numbers, characters and symbols."
     },
     "passwordAgain": {
       "type": "string",
@@ -27,5 +29,6 @@
   },
   "output": {
     "lockedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

@@ -1,5 +1,6 @@
 {
   "name": "merge-pdf",
+  "version": "0.0.1",
   "description": "Combine PDFs into one",
   "source": "https://github.com/jsscheller/apps/blob/master/merge-pdf/index.js",
   "issues": "https://github.com/jsscheller/apps/issues",
@@ -48,8 +49,8 @@
         }
       ],
       "show_if": "method === 'custom'",
-      "control": {
-        "name": "jss/pdf-page-picker",
+      "picker": {
+        "name": "js/pdf-page-picker",
         "input": "{ pdfFiles, allowDelete: true, allowMove: true }",
         "output": "docs[0].map((doc) => ({ from: doc.from, selection: doc.pages }))"
       }
@@ -57,5 +58,6 @@
   },
   "output": {
     "mergedPDF": "file"
-  }
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
 }

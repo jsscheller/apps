@@ -1,8 +1,7 @@
 import { subprocess, fs } from "@jspawn/jspawn";
+import * as util from "apps-util";
 
 export default async function (input) {
-  await fs.writeFile(input.pdfFile.name, input.pdfFile.contents);
-
   let docs = [];
   switch (input.method) {
     case "extract":
@@ -10,7 +9,7 @@ export default async function (input) {
       break;
     case "chunk": {
       const output = await subprocess.run("qpdf", [
-        input.pdfFile.name,
+        input.pdfFile.path,
         "--show-npages",
       ]);
       const pageCount = parseInt(output.stdout);
@@ -31,10 +30,10 @@ export default async function (input) {
 
   const pdfs = [];
   for (const [pos, doc] of docs.entries()) {
-    const outPath = addSuffix(`-${pos + 1}`, input.pdfFile.name);
+    const outPath = util.outPath(input.pdfFile.path, { suffix: `-${pos + 1}` });
 
     await subprocess.run("qpdf", [
-      input.pdfFile.name,
+      input.pdfFile.path,
       "--pages",
       ".",
       doc,
@@ -42,22 +41,7 @@ export default async function (input) {
       outPath,
     ]);
 
-    pdfs.push({
-      name: outPath,
-      contents: await fs.readFileToBlob(outPath),
-    });
+    pdfs.push(outPath);
   }
   return { pdfs };
-}
-
-function addSuffix(suffix, path) {
-  const name = path.split("/").pop();
-  let stem = name;
-  let ext = "";
-  const lastDot = name.lastIndexOf(".");
-  if (lastDot > -1) {
-    stem = name.slice(0, lastDot);
-    ext = name.slice(lastDot);
-  }
-  return `${stem}${suffix}${ext}`;
 }

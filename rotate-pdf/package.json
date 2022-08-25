@@ -4,10 +4,12 @@
     "test": "./node_modules/mocha/bin/mocha.js tests.js"
   },
   "devDependencies": {
-    "mocha": "^10.0.0"
+    "mocha": "^10.0.0",
+    "test-util": "file:../test-util"
   },
   "dependencies": {
-    "@jspawn/jspawn": "^0.3.1",
-    "@jspawn/qpdf-wasm": "^0.0.1"
+    "@jspawn/jspawn": "^0.4.0",
+    "@jspawn/qpdf-wasm": "^0.0.1",
+    "apps-util": "file:../apps-util"
   }
 }
