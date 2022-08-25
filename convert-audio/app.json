@@ -1,0 +1,314 @@
+{
+  "name": "convert-audio",
+  "version": "0.0.3",
+  "description": "Convert audio formats",
+  "source": "https://github.com/jsscheller/apps/blob/master/convert-audio/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "audioFile": "file",
+    "convertTo": {
+      "type": "string",
+      "enum": [
+        "AAC",
+        "AIFF",
+        "FLAC",
+        "M4A",
+        "MMF",
+        "MP3",
+        "OGG",
+        "OPUS",
+        "WAV",
+        "WMA"
+      ],
+      "description": "The format to convert to."
+    },
+    "startTime": {
+      "type": "string",
+      "required": false,
+      "description": [
+        "Format: `hh:mm:ss[.xxx]`",
+        "",
+        "Examples:",
+        "",
+        "|  |  |",
+        "| --- | --- |",
+        "| `00:04:15` | 4-minutes and 15-seconds |",
+        "| `02:04:05` | 2-hours, 4-minutes and 5-seconds |",
+        "| `00:00:05.500` | 5-seconds and 500-milliseconds (half-second) |"
+      ]
+    },
+    "stopTime": {
+      "type": "string",
+      "required": false,
+      "description": "Format: `hh:mm:ss[.xxx]`."
+    },
+    "optionsAAC": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'AAC'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["aac"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [
+            6, 8, 12, 16, 24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256,
+            320
+          ]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsAIFF": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'AIFF'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["pcm_s16be"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [
+            6, 8, 12, 16, 24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256,
+            320
+          ]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [
+            1000, 8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000
+          ]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsFLAC": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'FLAC'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["flac"],
+          "required": false
+        },
+        "bitDepth": {
+          "type": "number",
+          "enum": [16, 24]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [
+            1000, 8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000
+          ]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsM4A": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'M4A'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["aac", "alac"],
+          "required": false
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [
+            1000, 8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000
+          ]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsMMF": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'MMF'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["adpcm_yamaha"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [
+            6, 8, 12, 16, 24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256,
+            320
+          ]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [4000, 8000, 11025, 22050, 44100]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsMP3": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'MP3'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["libmp3lame"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [
+            6, 8, 12, 16, 24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256,
+            320
+          ]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsOGG": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'OGG'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["libvorbis", "libopus"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [
+            6, 8, 12, 16, 24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256,
+            320
+          ]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [
+            1000, 8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000
+          ]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsOPUS": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'OPUS'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["libopus"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [
+            6, 8, 12, 16, 24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256,
+            320
+          ]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [8000, 12000, 16000, 24000, 48000]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsWAV": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'WAV'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["pcm_s16le"],
+          "required": false
+        },
+        "bitDepth": {
+          "type": "number",
+          "enum": [16]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [
+            1000, 8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000
+          ]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    },
+    "optionsWMA": {
+      "required": false,
+      "collapse": true,
+      "show_if": "convertTo === 'WMA'",
+      "type": {
+        "codec": {
+          "type": "string",
+          "enum": ["wmav2", "wmav1"],
+          "required": false
+        },
+        "bitrate": {
+          "type": "number",
+          "enum": [24, 32, 48, 56, 64, 96, 112, 128, 160, 192, 224, 256, 320]
+        },
+        "sampleRate": {
+          "type": "number",
+          "enum": [1000, 8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000]
+        },
+        "channels": {
+          "type": "number",
+          "enum": [1, 2]
+        }
+      }
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

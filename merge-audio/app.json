@@ -1,0 +1,35 @@
+{
+  "name": "merge-audio",
+  "version": "0.0.1",
+  "description": "Combine audio clips",
+  "source": "https://github.com/jsscheller/apps/blob/master/merge-audio/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "audioFiles": {
+      "type": ["file"],
+      "description": "Audio files to be combined - duration of the output file will be the sum of the input files."
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "AAC",
+        "AIFF",
+        "FLAC",
+        "M4A",
+        "MMF",
+        "MP3",
+        "OGG",
+        "OPUS",
+        "WAV",
+        "WMA"
+      ],
+      "default": "auto",
+      "description": "`Auto` will choose the format of the first file."
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}

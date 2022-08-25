@@ -1,0 +1,43 @@
+{
+  "name": "trim-audio",
+  "version": "0.0.1",
+  "description": "Cut audio to a shorter duration",
+  "source": "https://github.com/jsscheller/apps/blob/master/trim-audio/index.js",
+  "issues": "https://github.com/jsscheller/apps/issues",
+  "input": {
+    "audioFile": "file",
+    "startTime": {
+      "type": "string",
+      "description": [
+        "Format: `hh:mm:ss[.xxx]`",
+        "",
+        "Examples:",
+        "",
+        "|  |  |",
+        "| --- | --- |",
+        "| `00:04:15` | 4-minutes and 15-seconds |",
+        "| `02:04:05` | 2-hours, 4-minutes and 5-seconds |",
+        "| `00:00:05.500` | 5-seconds and 500-milliseconds (half-second) |"
+      ]
+    },
+    "rangeMethod": {
+      "type": "string",
+      "enum": ["specifyStopTime", "specifyDuration"],
+      "default": "specifyStopTime"
+    },
+    "stopTime": {
+      "type": "string",
+      "description": "Format: `hh:mm:ss[.xxx]`.",
+      "show_if": "rangeMethod === 'specifyStopTime'"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Format: `hh:mm:ss[.xxx]`.",
+      "show_if": "rangeMethod === 'specifyDuration'"
+    }
+  },
+  "output": {
+    "result": "file"
+  },
+  "include": ["node_modules/@jspawn/", "node_modules/apps-util/"]
+}
